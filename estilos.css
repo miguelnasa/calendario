@@ -1,0 +1,81 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f6fa;
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+}
+main {
+  max-width: 850px;
+  margin: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px #ddd;
+  padding: 2rem;
+}
+form {
+  margin-bottom: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: .5rem 1rem 1rem 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+th, td {
+  padding: .5rem .6rem;
+  border: 1px solid #d1d5db;
+  text-align: left;
+}
+th {
+  background: #24475a;
+  color: #fff;
+}
+tr:nth-child(even) {
+  background: #e7efef;
+}
+input[type="text"], textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+button, input[type="submit"] {
+  padding: 0.4em 1.1em;
+  border: none;
+  border-radius: 4px;
+  background: #3481eb;
+  color: #fff;
+  font-size: 1rem;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+button:hover, input[type="submit"]:hover {
+  background: #19497c;
+}
+.editable-cell input, .editable-cell textarea {
+  background: #ffffe3;
+}
+.edit-btn {
+  background: transparent;
+  color: #24475a;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+@media (max-width: 700px) {
+  main {
+    padding: .6rem;
+  }
+  table, th, td {
+    font-size: 0.92em;
+  }
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario de Curso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main>
+    <h1>Generador de Calendario de Curso</h1>
+    <form id="formulario">
+      <label for="fecha-inicio">Primer día de clase:</label>
+      <input type="date" id="fecha-inicio" required>
+
+      <fieldset>
+        <legend>Días de la semana</legend>
+        <label><input type="checkbox" name="dias" value="1"> Lunes</label>
+        <label><input type="checkbox" name="dias" value="2"> Martes</label>
+        <label><input type="checkbox" name="dias" value="3"> Miércoles</label>
+        <label><input type="checkbox" name="dias" value="4"> Jueves</label>
+        <label><input type="checkbox" name="dias" value="5"> Viernes</label>
+        <label><input type="checkbox" name="dias" value="6"> Sábado</label>
+        <label><input type="checkbox" name="dias" value="0"> Domingo</label>
+      </fieldset>
+
+      <label for="semanas">Duración (semanas 8-16):</label>
+      <input type="number" id="semanas" min="8" max="16" value="8" required>
+      <button type="submit">Generar calendario</button>
+    </form>
+
+    <section id="calendario-container" style="display:none;">
+      <h2>Calendario generado</h2>
+      <div id="calendario"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
