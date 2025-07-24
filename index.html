@@ -10,6 +10,12 @@
   <main>
     <h1>Generador de Calendario de Curso</h1>
     <form id="formulario">
+      <label for="codigo-curso">Código del curso:</label>
+      <input type="text" id="codigo-curso" maxlength="20" required>
+      
+      <label for="nombre-curso">Nombre del curso:</label>
+      <input type="text" id="nombre-curso" maxlength="80" required>
+
       <label for="fecha-inicio">Primer día de clase:</label>
       <input type="date" id="fecha-inicio" required>
 
@@ -31,6 +37,7 @@
 
     <section id="calendario-container" style="display:none;">
       <h2>Calendario generado</h2>
+      <p><strong id="info-curso"></strong></p>
       <div id="calendario"></div>
     </section>
   </main>

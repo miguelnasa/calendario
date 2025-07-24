@@ -1,38 +1,38 @@
-// Días en español
+// Listas en español para formato largo
+const meses = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
 const diasSemana = [
   "Domingo", "Lunes", "Martes", "Miércoles",
   "Jueves", "Viernes", "Sábado"
 ];
 
-// Utilidad: formatear fecha
-function formatearFecha(fecha) {
-  return new Date(fecha).toLocaleDateString('es-CO', {
-    day: '2-digit', month: '2-digit', year: 'numeric'
-  });
+// Utilidad para formatear fecha: "20 Agosto 2025"
+function formatearFechaLarga(fecha) {
+  const f = new Date(fecha);
+  return `${f.getDate()} ${meses[f.getMonth()]} ${f.getFullYear()}`;
 }
 
-// Generador del calendario
+// Generador del calendario académico
 function generarFechasCalendario(inicio, diasSeleccionados, numeroSemanas) {
   let fechas = [];
   let fechaActual = new Date(inicio);
-  let totalSemanas = parseInt(numeroSemanas, 10);
+  const totalSemanas = parseInt(numeroSemanas, 10);
   let semanaActual = 1;
-  let sesionesPorSemana = diasSeleccionados.length;
 
   while (semanaActual <= totalSemanas) {
-    // Semana de receso tras la semana 8, si procede
+    // Insertar semana libre tras la 8 si corresponde
     if (semanaActual === 9 && totalSemanas > 8) {
-      // Omitir una semana
       fechaActual.setDate(fechaActual.getDate() + 7);
     }
-    // Generar días de la semana seleccionados
+    // Para cada día seleccionado de la semana
     for (let dia of diasSeleccionados) {
-      // Buscar el próximo día correcto desde fechaActual:
+      // Calcular próxima ocurrencia de ese día desde fechaActual
       let f = new Date(fechaActual);
       f.setDate(f.getDate() + ((dia - f.getDay() + 7) % 7));
-      // Solo agregar si corresponde a la semana actual y no está duplicado
-      if (fechas.length === 0 ||
-          f > fechas[fechas.length - 1].fecha) {
+      // Agregar solo fechas crecientes
+      if (fechas.length === 0 || f > fechas[fechas.length - 1].fecha) {
         fechas.push({
           fecha: new Date(f),
           semana: semanaActual,
@@ -43,11 +43,9 @@ function generarFechasCalendario(inicio, diasSeleccionados, numeroSemanas) {
         });
       }
     }
-    // Mover al siguiente bloque semanal
     fechaActual.setDate(fechaActual.getDate() + 7);
     semanaActual++;
   }
-  // Ordenar por fecha
   fechas.sort((a, b) => a.fecha - b.fecha);
   return fechas;
 }
@@ -70,7 +68,7 @@ function renderizarCalendario(fechas) {
   fechas.forEach((sesion, idx) => {
     const fila = document.createElement('tr');
     fila.innerHTML = `
-      <td>${formatearFecha(sesion.fecha)}</td>
+      <td>${formatearFechaLarga(sesion.fecha)}</td>
       <td>${sesion.diaSemana}</td>
       <td class="editable-cell" data-campo="tema" data-idx="${idx}">${sesion.tema || ''}</td>
       <td class="editable-cell" data-campo="biblio" data-idx="${idx}">${sesion.biblio || ''}</td>
@@ -84,7 +82,7 @@ function renderizarCalendario(fechas) {
   contenedor.appendChild(tabla);
 }
 
-// Edición en línea de celdas
+// Edición en línea
 function habilitarEdicion(fechas) {
   document.getElementById('calendario').addEventListener('click', function(e) {
     if (e.target.classList.contains('edit-btn')) {
@@ -94,14 +92,14 @@ function habilitarEdicion(fechas) {
   });
 }
 
-// Modal de edición sencilla (sin usar librerías externas)
+// Modal simple para editar campos de una sesión
 function editarFila(idx, fechas) {
   const sesion = fechas[idx];
   const modal = document.createElement('div');
   modal.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.2);display:flex;justify-content:center;align-items:center;z-index:10;";
   modal.innerHTML = `
     <form id="modalForm" style="background:#fff;padding:1.5em;border-radius:8px;max-width:370px;box-shadow:0 1px 10px #888;">
-      <h3>Editar sesión: ${formatearFecha(sesion.fecha)} | ${sesion.diaSemana}</h3>
+      <h3>Editar sesión: ${formatearFechaLarga(sesion.fecha)} | ${sesion.diaSemana}</h3>
       <label>Tema de trabajo
         <input type="text" name="tema" value="${sesion.tema || ''}">
       </label>
@@ -131,15 +129,19 @@ function editarFila(idx, fechas) {
   };
 }
 
-// Manejo del formulario
+// Manejo del formulario y parámetros de curso
 document.getElementById('formulario').onsubmit = function(e) {
   e.preventDefault();
+  // Captura info del curso
+  const codigo = document.getElementById('codigo-curso').value.trim();
+  const nombre = document.getElementById('nombre-curso').value.trim();
   const inicio = document.getElementById('fecha-inicio').value;
   const dias = Array.from(document.querySelectorAll('input[name="dias"]:checked'))
                    .map(cb => parseInt(cb.value));
   const semanas = parseInt(document.getElementById('semanas').value);
-  if (!inicio || dias.length === 0) {
-    alert('Seleccione la fecha de inicio y al menos un día de la semana.');
+  
+  if (!codigo || !nombre || !inicio || dias.length === 0) {
+    alert('Complete todos los campos obligatorios y seleccione al menos un día.');
     return;
   }
   let fechas = generarFechasCalendario(inicio, dias, semanas);
@@ -147,6 +149,9 @@ document.getElementById('formulario').onsubmit = function(e) {
     alert('No se pudieron generar sesiones.');
     return;
   }
+  // Mostrar encabezado del curso
+  const info = `<span>Código: </span>${codigo} &nbsp; | &nbsp; <span>Curso: </span>${nombre}`;
+  document.getElementById('info-curso').innerHTML = info;
   document.getElementById('calendario-container').style.display = 'block';
   renderizarCalendario(fechas);
   habilitarEdicion(fechas);

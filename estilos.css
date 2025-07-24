@@ -18,6 +18,9 @@ form {
   display: grid;
   gap: 1rem;
 }
+label {
+  font-weight: 500;
+}
 fieldset {
   display: flex;
   flex-wrap: wrap;
@@ -26,7 +29,11 @@ fieldset {
   border-radius: 4px;
   padding: .5rem 1rem 1rem 1rem;
 }
-
+input[type="text"], input[type="date"], input[type="number"], textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: .3em;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -44,9 +51,8 @@ th {
 tr:nth-child(even) {
   background: #e7efef;
 }
-input[type="text"], textarea {
-  width: 100%;
-  box-sizing: border-box;
+.editable-cell input, .editable-cell textarea {
+  background: #ffffe3;
 }
 button, input[type="submit"] {
   padding: 0.4em 1.1em;
@@ -60,9 +66,6 @@ button, input[type="submit"] {
 }
 button:hover, input[type="submit"]:hover {
   background: #19497c;
-}
-.editable-cell input, .editable-cell textarea {
-  background: #ffffe3;
 }
 .edit-btn {
   background: transparent;
@@ -78,4 +81,9 @@ button:hover, input[type="submit"]:hover {
   table, th, td {
     font-size: 0.92em;
   }
+}
+#info-curso {
+  font-size: 1.09em;
+  margin: 0.25em 0 0.7em 0;
+  display: inline-block;
 }
