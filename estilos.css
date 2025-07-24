@@ -6,7 +6,7 @@ body {
   padding: 2rem;
 }
 main {
-  max-width: 850px;
+  max-width: 950px;
   margin: auto;
   background: #fff;
   border-radius: 8px;
@@ -29,7 +29,7 @@ fieldset {
   border-radius: 4px;
   padding: .5rem 1rem 1rem 1rem;
 }
-input[type="text"], input[type="date"], input[type="number"], textarea {
+input[type="text"], input[type="date"], input[type="number"], input[type="time"], textarea {
   width: 100%;
   box-sizing: border-box;
   margin-top: .3em;
